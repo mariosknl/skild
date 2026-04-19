@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
 import {
 	ArrowBigUp,
@@ -20,15 +21,29 @@ const SkillCard = ({
 	title,
 }: SkillRecord) => {
 	const [copied, setCopied] = useState(false);
+	const posthog = usePostHog();
 
 	const handleCopy = async () => {
 		try {
 			navigator.clipboard.writeText(installCommand);
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
+			posthog.capture("skill_install_command_copied", {
+				skill_slug: slug,
+				skill_title: title,
+				install_command: installCommand,
+			});
 		} catch {
 			setCopied(false);
 		}
+	};
+
+	const handleOpen = () => {
+		posthog.capture("skill_opened", {
+			skill_slug: slug,
+			skill_title: title,
+			category,
+		});
 	};
 	return (
 		<article className="skill-card">
@@ -103,7 +118,12 @@ const SkillCard = ({
 					</div>
 
 					<div className="actions">
-						<Link to="/skills" className="open" title={`Open ${title}`}>
+						<Link
+							to="/skills"
+							className="open"
+							title={`Open ${title}`}
+							onClick={handleOpen}
+						>
 							<span>Open</span>
 							<ArrowUpRight size={14} />
 						</Link>

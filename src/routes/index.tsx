@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { TerminalIcon } from "lucide-react";
 import SkillCard from "#/components/SkillCard";
@@ -73,6 +74,8 @@ export const dummySkills: SkillRecord[] = [
 ];
 
 function App() {
+	const posthog = usePostHog();
+
 	return (
 		<div id="home">
 			<section className="hero">
@@ -89,11 +92,19 @@ function App() {
 				</div>
 
 				<div className="actions">
-					<Link to="/skills" className="btn-primary">
+					<Link
+						to="/skills"
+						className="btn-primary"
+						onClick={() => posthog.capture("browse_registry_clicked")}
+					>
 						<TerminalIcon size={18} />
 						<span>Browse Registry</span>
 					</Link>
-					<Link to="/skills/new" className="btn-secondary">
+					<Link
+						to="/skills/new"
+						className="btn-secondary"
+						onClick={() => posthog.capture("publish_skill_clicked")}
+					>
 						<span>Publish Skill</span>
 					</Link>
 				</div>
