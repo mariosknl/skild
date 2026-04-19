@@ -5,7 +5,6 @@ import {
 	Bookmark,
 	Check,
 	Copy,
-	CopyIcon,
 	MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
@@ -23,9 +22,13 @@ const SkillCard = ({
 	const [copied, setCopied] = useState(false);
 
 	const handleCopy = async () => {
-		navigator.clipboard.writeText(installCommand);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+		try {
+			navigator.clipboard.writeText(installCommand);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch {
+			setCopied(false);
+		}
 	};
 	return (
 		<article className="skill-card">
@@ -53,7 +56,11 @@ const SkillCard = ({
 						<img src="/logo512.png" alt="author avatar" className="avatar" />
 						<div className="author-copy">
 							<p>Marios</p>
-							<p>{new Date(createdAt as string).toLocaleDateString()}</p>
+							<p>
+								{createdAt
+									? new Date(createdAt as string).toLocaleDateString()
+									: "Unknown Date"}
+							</p>
 						</div>
 					</div>
 
