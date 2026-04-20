@@ -9,19 +9,22 @@ import {
 	MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
+import type { GetSkillsData } from "#/dataconnect-generated";
+
+type SkillCardProps = GetSkillsData["skills"][number];
 
 const SkillCard = ({
-	authorEmail,
-	category,
 	createdAt,
 	description,
 	installCommand,
-	slug,
 	tags,
 	title,
-}: SkillRecord) => {
+	author,
+}: SkillCardProps) => {
 	const [copied, setCopied] = useState(false);
 	const posthog = usePostHog();
+
+	const category = tags[0] || "General";
 
 	const handleCopy = async () => {
 		try {
@@ -29,7 +32,7 @@ const SkillCard = ({
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
 			posthog.capture("skill_install_command_copied", {
-				skill_slug: slug,
+				skill_slug: title,
 				skill_title: title,
 				install_command: installCommand,
 			});
@@ -40,7 +43,7 @@ const SkillCard = ({
 
 	const handleOpen = () => {
 		posthog.capture("skill_opened", {
-			skill_slug: slug,
+			skill_slug: id,
 			skill_title: title,
 			category,
 		});
@@ -68,9 +71,13 @@ const SkillCard = ({
 			<div className="body">
 				<div className="meta">
 					<div className="author">
-						<img src="/logo512.png" alt="author avatar" className="avatar" />
+						<img
+							src={author.imageUrl || "/logo512.png"}
+							alt={author.username || "Author Avatar"}
+							className="avatar"
+						/>
 						<div className="author-copy">
-							<p>Marios</p>
+							<p>{author.username}</p>
 							<p>
 								{createdAt
 									? new Date(createdAt as string).toLocaleDateString()
@@ -113,7 +120,7 @@ const SkillCard = ({
 
 						<div className="comments">
 							<MessageSquare size={14} />
-							<span>{authorEmail ? 1 : 0}</span>
+							<span>{author.email ? 1 : 0}</span>
 						</div>
 					</div>
 

@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@dataconnect/generated': link:src/dataconnect-generated
+
 importers:
 
   .:
@@ -14,6 +17,9 @@ importers:
       '@clerk/tanstack-react-start':
         specifier: 1.1.3
         version: 1.1.3(@tanstack/react-router@1.168.22(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/react-start@1.167.41(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@dataconnect/generated':
+        specifier: link:src/dataconnect-generated
+        version: link:src/dataconnect-generated
       '@posthog/react':
         specifier: 1.9.0
         version: 1.9.0(@types/react@19.2.14)(posthog-js@1.369.3)(react@19.2.5)
