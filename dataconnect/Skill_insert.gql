@@ -1,0 +1,17 @@
+# This is a file for you to write an un-named mutation.
+# Only one un-named mutation is allowed per file.
+mutation {
+  skill_insert(
+    data: {
+      id: "11111111222233334444555555555555"
+      authorClerkId: "user_3Ca4Fj2e1ztXTHM6eXdd8H61flk"
+      createdAt: "2026-04-20T04:14:30.750Z"
+      description: "Write a function to add two numbers"
+      installCommand: "npx skild add add-two-numbers"
+      promptConfig: "You are a helpful assistant that can write code"
+      tags: ["javascript", "nodejs", "express"]
+      title: "Add Two Numbers"
+      usageExample: "addTwoNumbers(1, 2)"
+    }
+  )
+}
